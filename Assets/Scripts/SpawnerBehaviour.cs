@@ -8,20 +8,22 @@ public class SpawnerBehaviour : MonoBehaviour
     private float _timer;
     [SerializeField]
     private GameObject[] _enemies;
+    private bool _isActive = false;
     //set an ammount of waves and an ammount of enemies on each wave, when a wave ends there is a delay until the next starts
-    void Start()
-    {
-        _timer = Time.time + 5;
-    }
+   
 
-    
+    public void StartSpawner(bool active,float spRate= 5)
+    {
+        _isActive = active;
+        _timer = Time.time + spRate;
+    }
     void Update()
     {
-        if(_timer <= Time.time)
+        if(_isActive == true && _timer <= Time.time)
         {
             //instatiate an enemy
             _timer = Time.time + 5;
-            Instantiate(_enemies[0],transform.position,Quaternion.identity);
+            Instantiate(_enemies[Random.Range(0,_enemies.Length)],transform.position,Quaternion.identity);
         }
     }
 }

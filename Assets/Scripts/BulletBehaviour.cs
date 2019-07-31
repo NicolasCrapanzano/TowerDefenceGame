@@ -6,6 +6,8 @@ public class BulletBehaviour : MonoBehaviour
 {
     [SerializeField]
     private float _speed;
+    [SerializeField]
+    private int _damage = 1;
     private EnemyBehaviour _enemy;
     void Start()
     {
@@ -23,7 +25,7 @@ public class BulletBehaviour : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
             _enemy = collision.gameObject.GetComponent<EnemyBehaviour>();
-            _enemy.SendMessage("RecieveDamage", 1);
+            _enemy.SendMessage("RecieveDamage", _damage);
             Destroy(this.gameObject);
         }
     }

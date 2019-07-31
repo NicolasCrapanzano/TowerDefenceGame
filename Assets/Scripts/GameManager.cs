@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject[] _UIHealth;
+    [SerializeField]
     private int _coins;
     [SerializeField]
     private Text _coinDisplay;
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
     }
     private void CoinsCounter(int coins)
     {
+        Debug.Log(coins);
         _coins = _coins + coins;
         _coinDisplay.text = "Coins : " + _coins;
     }
