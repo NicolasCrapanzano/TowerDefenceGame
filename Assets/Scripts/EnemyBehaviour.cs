@@ -91,7 +91,7 @@ public class EnemyBehaviour : MonoBehaviour
         if (_health <= 0)
         {
             _gm.SendMessage("CoinsCounter", _reward);//send coins to the gamemanager
-            Debug.Log("He need some milk");
+
             Destroy(this.gameObject);
         }
     }
