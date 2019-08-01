@@ -47,7 +47,7 @@ public class SpawnerBehaviour : MonoBehaviour
             _enemiesLeft = _enemiesTotal / _totalWaves;
             _actualWave++;
             _gm.SendMessage("Progress",false);
-            Debug.Log(name + "Progress + 1");
+
             //display time until next wave
             _timer = Time.time + 5;
         } else if (_difficulty != 0&&_endTimer <= Time.time&& _actualWave >= _totalWaves && _enemiesLeft <= 0) //you won

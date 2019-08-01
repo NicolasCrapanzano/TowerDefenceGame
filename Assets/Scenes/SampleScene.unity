@@ -403,6 +403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _health: 0
+  _damage: 0
 --- !u!212 &167740299
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2397,10 +2398,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 002b93e8c2862d04dbe5ab3c30e5080d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: -90
-  _timeBtwShots: 0
   _shotSpd: 0
-  _shotExtraRotation: 8
+  _shotScatter: 0
   _bullet: {fileID: 6676744816258658921, guid: a137a4291c9343a46b87c1457901fe80, type: 3}
   _cannonHole: {fileID: 711178367}
 --- !u!212 &1918937619

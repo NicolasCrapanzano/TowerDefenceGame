@@ -69,6 +69,8 @@
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\GunControl.cs" />
     <Compile Include="Assets\Scripts\PlayerBehaviour.cs" />
+    <Compile Include="Assets\Scripts\SaveLoadSystem.cs" />
+    <Compile Include="Assets\Scripts\ShopManager.cs" />
     <Compile Include="Assets\Scripts\SpawnerBehaviour.cs" />
     <Compile Include="Assets\Scripts\TowerBehaviour.cs" />
     <Compile Include="Assets\Scripts\TowerShopManager.cs" />

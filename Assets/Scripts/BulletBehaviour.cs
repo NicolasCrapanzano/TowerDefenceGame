@@ -7,16 +7,20 @@ public class BulletBehaviour : MonoBehaviour
     [SerializeField]
     private float _speed;
     [SerializeField]
-    private int _damage = 1;
+    private static int _damage = 1;
     private EnemyBehaviour _enemy;
     void Start()
     {
         Destroy(this.gameObject,2);
     }
 
-
+    public static void Load(int dmg)
+    {
+        _damage = dmg;
+    }
     void Update()
     {
+        
         transform.Translate(Vector2.up * _speed * Time.deltaTime);
     }
     private void OnCollisionEnter2D(Collision2D collision)

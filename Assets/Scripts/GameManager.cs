@@ -24,7 +24,10 @@ public class GameManager : MonoBehaviour
         {
             Progress();
         }
-
+        if(Input.GetKey(KeyCode.R))
+        {
+            
+        }
     }
 
     private void CoinsCounter(int coins)
@@ -55,10 +58,11 @@ public class GameManager : MonoBehaviour
         {
             //you win m8
             _enemiesLeft = FindObjectsOfType<EnemyBehaviour>();
-            Debug.Log(_enemiesLeft);
+
             if (_enemiesLeft.Length <= 0 && end == true)
             {
-                
+                //send the ammount of money you won and save it
+                SaveLoadSystem.SaveGold(_coins);
                 _youwin.gameObject.SetActive(true);
                 StartCoroutine(Wait());
             }else
