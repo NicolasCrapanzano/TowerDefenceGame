@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Text _coinDisplay,_youwin;
     private EnemyBehaviour[] _enemiesLeft;
-    private bool _almostEnd=false;
+    private bool _almostEnd=false,_dontEnterAgain=false;
     private float _endTimer;
     void Start()
     {
@@ -62,9 +62,12 @@ public class GameManager : MonoBehaviour
             if (_enemiesLeft.Length <= 0 && end == true)
             {
                 //send the ammount of money you won and save it
-                SaveLoadSystem.SaveGold(_coins);
+                
                 _youwin.gameObject.SetActive(true);
-                StartCoroutine(Wait());
+                if (_dontEnterAgain == false)
+                {
+                    StartCoroutine(Wait());
+                }
             }else
             {
                 _almostEnd = true;
@@ -74,9 +77,12 @@ public class GameManager : MonoBehaviour
     }
     private IEnumerator Wait()
     {
+        _dontEnterAgain = true;
         yield return new WaitForSeconds(3);
+        SaveLoadSystem.SaveGold(_coins,1);
         Cursor.visible = true;
         SceneManager.LoadScene(1);
+        _coins = 0;
     }
     private void HealthDisplay(int h) // show health in the UI
     {

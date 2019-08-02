@@ -8,6 +8,7 @@ TagManager:
   - BuildZone
   - Wall
   - Cursor
+  - StoreButton
   layers:
   - Default
   - TransparentFX

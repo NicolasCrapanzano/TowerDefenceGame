@@ -20,19 +20,22 @@ public class CursorBehaviour : MonoBehaviour
 
     void Update()
     {
+
         _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         this.transform.position = _mousePos;
-        if (_isTowerInHand == true &&_inBuildZone == true && Input.GetMouseButtonDown(0))
+        if (_isTowerInHand == true &&_inBuildZone == true && Input.GetMouseButtonDown(1))
         {
 
             _child.transform.parent = null;
             _isTowerInHand = false;
 
         }
+
         if (_isTowerInHand == true && Input.GetKeyDown(KeyCode.R))
         {
             _child.transform.rotation = Quaternion.Euler(_child.transform.eulerAngles + new Vector3(0,0,45));
         }
+
         if (_rb.IsSleeping()) //if mouse enter sleep mode wake up
         {
 
@@ -51,7 +54,9 @@ public class CursorBehaviour : MonoBehaviour
 
     private void NewTower(int id = 0)
     {
+
         Debug.Log("entered");
+
         if (id == 1)
         {
             //you have a tower now
@@ -62,6 +67,7 @@ public class CursorBehaviour : MonoBehaviour
         }
 
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("BuildZone"))
@@ -70,6 +76,7 @@ public class CursorBehaviour : MonoBehaviour
             Debug.Log("build : " + _inBuildZone);
         }
     }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         _inBuildZone = false;
