@@ -98,7 +98,7 @@ MonoBehaviour:
   _atkDelay: 0
   _timer: 0
   _health: 3
-  _damage: 1
+  _damage: 3
   _reward: 4
 --- !u!58 &1719690824369894192
 CircleCollider2D:

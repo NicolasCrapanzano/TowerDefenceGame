@@ -5,8 +5,13 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
+    //Health
     [SerializeField]
-    private GameObject[] _UIHealth;
+    private Text _healthTxt;
+    [SerializeField]
+    private Image _healthBar;
+    private int _maxHealth;
+    //
     [SerializeField]
     private int _coins,_totalWaves,_spawners,_actualWave;
     [SerializeField]
@@ -17,17 +22,26 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         _coins = 0;
+        
+        
     }
     private void Update()
     {
+
         if(_almostEnd == true && _endTimer <= Time.time)
         {
             Progress();
         }
-        if(Input.GetKey(KeyCode.R))
+        if(Input.GetKey(KeyCode.R)) //desaparecer vida enemigos?
         {
             
         }
+
+    }
+    private void GetPlayerHealth(int health)
+    {
+        _maxHealth = health;
+        HealthDisplay(health);
     }
 
     private void CoinsCounter(int coins)
@@ -86,29 +100,9 @@ public class GameManager : MonoBehaviour
     }
     private void HealthDisplay(int h) // show health in the UI
     {
-        int _playerHealth = h;
-        switch (_playerHealth)
-        {
-            case 3:
-                _UIHealth[2].SetActive(true);
-                _UIHealth[1].SetActive(true);
-                _UIHealth[0].SetActive(true);
-                break;
-            case 2:
-                _UIHealth[2].SetActive(false);
-                _UIHealth[1].SetActive(true);
-                _UIHealth[0].SetActive(true);
-                break;
-            case 1:
-                _UIHealth[2].SetActive(false);
-                _UIHealth[1].SetActive(false);
-                _UIHealth[0].SetActive(true);
-                break;
-            case 0:
-                _UIHealth[2].SetActive(false);
-                _UIHealth[1].SetActive(false);
-                _UIHealth[0].SetActive(false);
-                break;
-        }
+        float _playerHealth = (float)h / _maxHealth;
+        Debug.Log(_playerHealth);
+        _healthTxt.text = h + "\r\n" + "-" + "\r\n" + _maxHealth;
+        _healthBar.fillAmount = _playerHealth;
     }
 }

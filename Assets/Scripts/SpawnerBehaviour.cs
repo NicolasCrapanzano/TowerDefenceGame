@@ -16,6 +16,7 @@ public class SpawnerBehaviour : MonoBehaviour
 
     public void StartSpawner(int dif, bool active,int enemiesAmmount,int waves, float spRate = 5)
     {
+
         if (active == true)
         {
             _gm = FindObjectOfType<GameManager>();
@@ -30,14 +31,16 @@ public class SpawnerBehaviour : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
+
     }
     void Update()
     {
+
         if (_isActive == true && _timer <= Time.time && _enemiesLeft > 0)
         {
             //instatiate an enemy
 
-            _timer = Time.time + 2;
+            _timer = Time.time + 5;
             Instantiate(_enemies[0], transform.position, Quaternion.identity);
             _enemiesLeft--;
 
@@ -49,11 +52,12 @@ public class SpawnerBehaviour : MonoBehaviour
             _gm.SendMessage("Progress",false);
 
             //display time until next wave
-            _timer = Time.time + 5;
+            _timer = Time.time + 10;
         } else if (_difficulty != 0&&_endTimer <= Time.time&& _actualWave >= _totalWaves && _enemiesLeft <= 0) //you won
         {
-            _endTimer = Time.time + 3;
+            _endTimer = Time.time + 5;
             _gm.SendMessage("Progress",true);
         }
+
     }
 }

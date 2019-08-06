@@ -26,7 +26,7 @@ public class PlayerBehaviour : MonoBehaviour
         _damage = (int)stats[1];
         _shotSpd = stats[2];
         _shotScatter = stats[3];
-
+        _gm.SendMessage("GetPlayerHealth",_health);
         BulletBehaviour.Load(_damage);
         FindObjectOfType<GunControl>().Load(_shotSpd, _shotScatter);
     }
@@ -35,6 +35,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         
     }
+
     private void RecieveDamage(int dmg)
     {
         
