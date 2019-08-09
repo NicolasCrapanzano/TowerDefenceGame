@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TowerShopManager : MonoBehaviour
 {
+    [SerializeField] private SpriteRenderer BuildZone;
     private GameManager _gm;
     private GameObject[] _towers;
     private CursorBehaviour _cursor;
@@ -14,6 +15,7 @@ public class TowerShopManager : MonoBehaviour
     {
         _gm = FindObjectOfType<GameManager>();
         _cursor = FindObjectOfType<CursorBehaviour>();
+        
     }
 
     public void BuyTower(int id)
@@ -24,6 +26,7 @@ public class TowerShopManager : MonoBehaviour
             case 1:
                 if(_coinsTemporal >= _towerCost[id])
                 {
+                    EnableBuildZone(true);
                     Debug.Log("tower" + id);
                     //put the tower inside the cursor (rotate with R)
                     _cursor.SendMessage("NewTower", id);
@@ -43,5 +46,11 @@ public class TowerShopManager : MonoBehaviour
 
                 break;
         }
+    }
+    public void EnableBuildZone(bool state)
+    {
+
+        BuildZone.enabled = state;
+
     }
 }

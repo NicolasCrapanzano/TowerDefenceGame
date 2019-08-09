@@ -9,11 +9,12 @@ public class EnemyBehaviour : MonoBehaviour
     private TowerBehaviour _tower;
     private GameManager _gm;
     private Rigidbody2D _rb;
-    [SerializeField]
-    private float _speed,_atkDelay,_timer;
-    private bool _move, _somethingReached;
-    [SerializeField]
-    private int _health=1,_damage=1,_reward=1;
+    private SpriteRenderer _sp;
+    
+    [SerializeField] private float _speed, _atkDelay, _timer, _damagedColorTimer;
+    [SerializeField] private int _health = 1, _damage = 1, _reward = 1;
+    [SerializeField] private GameObject _deathParticle;
+    private bool _move, _somethingReached, _damagedColor = false;
     void Start()
     {
 
@@ -21,6 +22,7 @@ public class EnemyBehaviour : MonoBehaviour
         _target = _player.GetComponent<Transform>();
         _rb = GetComponent<Rigidbody2D>();
         _gm = FindObjectOfType<GameManager>();
+        _sp = GetComponentInChildren<SpriteRenderer>();
         _move = true;
         _somethingReached = false;
         
@@ -38,6 +40,11 @@ public class EnemyBehaviour : MonoBehaviour
             _timer = Time.time + 0.5f;
             _rb.WakeUp();
             Debug.Log("Wake up!");
+        }
+        if(_damagedColor = true &&_damagedColorTimer <= Time.time)
+        {
+            _sp.color = new Color(255,255,255);
+            _damagedColor = false;
         }
     }
 
@@ -86,12 +93,18 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void RecieveDamage(int dmg)
     {
+        _sp.color = new Color(255, 0, 0);
+        if (_damagedColor == false)
+        {
+            _damagedColor = true;
+            _damagedColorTimer = Time.time + 0.2f;
+        }
         //Debug.Log(name + "recieved " + dmg + " damage");
         _health -= dmg;
         if (_health <= 0)
         {
             _gm.SendMessage("CoinsCounter", _reward);//send coins to the gamemanager
-
+            //Instantiate(_deathParticle,transform.position,Quaternion.identity);
             Destroy(this.gameObject);
         }
     }

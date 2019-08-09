@@ -6,7 +6,7 @@ public class CursorBehaviour : MonoBehaviour
 {
     private Rigidbody2D _rb;
     private Vector2 _mousePos;
-
+    private TowerShopManager _twrManager;
     private bool _isTowerInHand = false,_inBuildZone=false;
     private GameObject _child;
     [SerializeField]
@@ -15,7 +15,7 @@ public class CursorBehaviour : MonoBehaviour
     {
 
         _rb = GetComponent<Rigidbody2D>();
-
+        _twrManager = FindObjectOfType<TowerShopManager>();
     }
 
     void Update()
@@ -28,7 +28,7 @@ public class CursorBehaviour : MonoBehaviour
 
             _child.transform.parent = null;
             _isTowerInHand = false;
-
+            _twrManager.EnableBuildZone(false);
         }
 
         if (_isTowerInHand == true && Input.GetKeyDown(KeyCode.R))

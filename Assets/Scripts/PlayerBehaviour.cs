@@ -8,12 +8,13 @@ public class PlayerBehaviour : MonoBehaviour
     private int _health,_damage;
     private float _shotSpd, _shotScatter;
     private GameManager _gm;
+    private Animator _screenShake;
 
     void Start()
     {
         
         _gm = FindObjectOfType<GameManager>();
-
+        _screenShake = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Animator>();
         SavedStats();
     }
     private void SavedStats()
@@ -42,6 +43,7 @@ public class PlayerBehaviour : MonoBehaviour
         Debug.Log("recieved " + dmg + " damage");
         _health -= dmg;
         _gm.SendMessage("HealthDisplay", _health);
+        _screenShake.SetTrigger("Shake");
         if(_health <= 0)
         {
             Debug.Log(" W A S T E D");
