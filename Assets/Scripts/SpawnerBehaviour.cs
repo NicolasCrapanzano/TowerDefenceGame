@@ -46,7 +46,7 @@ public class SpawnerBehaviour : MonoBehaviour
         if(_timer > 0)
         {
             _timer -= Time.deltaTime;
-            Debug.Log(_timer);
+
             if (_betweenWaves == true)
             {
                 _timeLeftDisplay.text = "Next Wave In : " + (int)_timer;

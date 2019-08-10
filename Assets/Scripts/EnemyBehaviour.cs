@@ -14,7 +14,9 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] private Image _healthBar;
     [SerializeField] private float _speed, _atkDelay, _timer, _damagedColorTimer;
     [SerializeField] private int _health = 1, _damage = 1, _reward = 1;
-    [SerializeField] private GameObject _deathParticle;
+    [SerializeField] private GameObject _deathParticle,_coinPopUp;
+    [SerializeField] private Animator _coinDisplayMove;
+    private GameObject _pop;
     private bool _move, _somethingReached, _damagedColor = false;
     public bool _isAlive = true;
     private int _maxHealth;
@@ -27,6 +29,7 @@ public class EnemyBehaviour : MonoBehaviour
         _gm = FindObjectOfType<GameManager>();
         _sp = GetComponentInChildren<SpriteRenderer>();
         _anim = GetComponentInChildren<Animator>();
+        _coinDisplayMove = GameObject.Find("CoinsCanvas").GetComponent<Animator>();
         _move = true;
         _somethingReached = false;
         _maxHealth = _health;
@@ -108,7 +111,11 @@ public class EnemyBehaviour : MonoBehaviour
         _healthBar.fillAmount = (float)_health / _maxHealth;
         if (_health <= 0)
         {
+
             _isAlive = false;
+            _pop = Instantiate(_coinPopUp,transform.position,Quaternion.identity);
+            _pop.SendMessage("CreateObject", _reward);
+
             _gm.SendMessage("CoinsCounter", _reward);//send coins to the gamemanager
             Instantiate(_deathParticle,transform.position,Quaternion.identity);
             _move = false;

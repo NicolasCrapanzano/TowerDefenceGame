@@ -13,17 +13,19 @@ public class GameManager : MonoBehaviour
     private int _maxHealth;
     //
     [SerializeField]
-    private int _coins,_totalWaves,_spawners,_actualWave;
+    private int _actualCoins,_realCoins,_totalWaves,_spawners,_actualWave;
     [SerializeField]
     private Text _coinDisplay,_youwin;
+    [SerializeField] private Animator _coinDisplayMove;
     private EnemyBehaviour[] _enemiesLeft;
     private bool _almostEnd=false,_dontEnterAgain=false;
-    private float _endTimer;
+    private float _endTimer, _coinTimer;
     void Start()
     {
-        _coins = 0;
-        
 
+        _realCoins = 0;
+        _actualCoins = 0;
+        _coinDisplayMove = _coinDisplay.GetComponentInParent<Animator>();
 
     }
     private void Update()
@@ -37,24 +39,45 @@ public class GameManager : MonoBehaviour
         {
             
         }
-
+        if (_actualCoins != _realCoins && _coinTimer <= Time.time)
+        {
+            UpdateCoins();
+            
+        }
+        
+       
     }
     private void GetPlayerHealth(int health)
     {
         _maxHealth = health;
         HealthDisplay(health);
     }
+    private void UpdateCoins()
+    {
 
+        if (_actualCoins < _realCoins)
+        {
+            _actualCoins++;
+        }
+        else if (_actualCoins > _realCoins)
+        {
+            _actualCoins--;
+            
+        }
+        //modify text
+        _coinTimer = Time.time + 0.3f;
+        _coinDisplay.text = "Coins : " + _actualCoins;
+    }
     private void CoinsCounter(int coins)
     {
 
-        _coins = _coins + coins;
-        _coinDisplay.text = "Coins : " + _coins;
+        _realCoins = _realCoins + coins;
+        
     }
 
     public int HowManyCoins()
     {
-        return _coins;
+        return _realCoins;
     }
 
     public void LevelObjective(int waves,int spawners)//recieve data from the wave manager
@@ -96,10 +119,10 @@ public class GameManager : MonoBehaviour
     {
         _dontEnterAgain = true;
         yield return new WaitForSeconds(3);
-        SaveLoadSystem.SaveGold(_coins,1);
+        SaveLoadSystem.SaveGold(_realCoins, 1);
         Cursor.visible = true;
         SceneManager.LoadScene(1);
-        _coins = 0;
+        _realCoins = 0;
     }
     private void HealthDisplay(int h) // show health in the UI
     {

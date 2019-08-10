@@ -71,7 +71,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -757665917
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 5747173110019870749, guid: ce23938cf02502c41a5e7bb62831dee9,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -143,6 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d821a9344635f7c4ea68370fe0d61cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _children: {fileID: 7389778613771746054}
 --- !u!1 &7389778613771746054
 GameObject:
   m_ObjectHideFlags: 0
@@ -154,7 +155,7 @@ GameObject:
   - component: {fileID: 8268263166514318399}
   - component: {fileID: 2002187520453855004}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: EnemyDetector
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

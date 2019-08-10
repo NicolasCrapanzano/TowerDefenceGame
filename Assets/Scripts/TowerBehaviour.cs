@@ -6,6 +6,7 @@ public class TowerBehaviour : MonoBehaviour
 {
     private int _health = 1; // health of the tower
     private EnemyBehaviour _enemyHittingThis;
+    [SerializeField]private GameObject _children;
     private SpriteRenderer _sr;
     private Color _nativeColor;
     void Start()
@@ -13,6 +14,7 @@ public class TowerBehaviour : MonoBehaviour
         _sr = GetComponent<SpriteRenderer>();
         _nativeColor = _sr.color;
         gameObject.layer = 10;
+        _children.layer = 10;
     }
 
     void Update()
@@ -20,6 +22,7 @@ public class TowerBehaviour : MonoBehaviour
         if(transform.parent == null)
         {
             gameObject.layer = 0;
+            _children.layer = 0;
         }
     }
     private void DoDamage()

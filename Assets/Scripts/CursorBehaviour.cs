@@ -62,7 +62,7 @@ public class CursorBehaviour : MonoBehaviour
         {
             //you have a tower now
             _isTowerInHand = true;
-            Debug.Log("tower added");
+            
             _child = Instantiate(_torretest, _ancla.transform.position, Quaternion.identity);
             _child.transform.SetParent(this.gameObject.transform);
         }
@@ -74,19 +74,19 @@ public class CursorBehaviour : MonoBehaviour
         if (collision.gameObject.CompareTag("BuildZone"))
         {
             _inBuildZone = true;
-            Debug.Log("build : " + _inBuildZone);
+            
         }
         if(collision.gameObject.CompareTag("BuyTower"))
         {
             _pGun.SendMessage("OnShop", false);//tell the gun that the cursosr is in the shop so it doesnt shoot
-            Debug.Log(collision.name);
+            
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         _inBuildZone = false;
-        Debug.Log("build : " + _inBuildZone);
+        
         if(collision.gameObject.CompareTag("BuyTower"))
         {
             _pGun.SendMessage("OnShop", true);//tell the gun that the cursor leaved the shop

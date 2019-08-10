@@ -231,6 +231,8 @@ MonoBehaviour:
   _reward: 4
   _deathParticle: {fileID: 4124398078125066981, guid: 48593eb9f2739de439f85dfbf7903468,
     type: 3}
+  _coinPopUp: {fileID: 5605309422439473595, guid: 08991c640ddfaa24d9cc74fb5936d4a8,
+    type: 3}
   _isAlive: 1
 --- !u!50 &1719690824369894199
 Rigidbody2D:
