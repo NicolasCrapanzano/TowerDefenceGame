@@ -133,6 +133,9 @@ public class ShopManager : MonoBehaviour
             }else if(i == 2)
             {
                 tempButton.text = "Atk Spd : " +_buyAtkSpd[_statsLevel[i]] + "\r\n" + "Cost : " + _atkSpdCost[_statsLevel[i]];
+            }else if(i == 3)
+            {
+                tempButton.text = "Shot scatter : " + _buyScatter[_statsLevel[i]] + "\r\n" + "Cost : " + _scatterCost[_statsLevel[i]];
             }
         }
         //do a for to go through the array

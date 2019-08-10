@@ -43,7 +43,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 285fdff90d20e28488c163633e628adf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _timeLeftDisplay: {fileID: 0}
   _timer: 0
+  _endTimer: 0
+  _maxTime: 0
   _enemies:
   - {fileID: 1719690824369894092, guid: 88b25774e0770fd46bc789b823a9fbf6, type: 3}
   - {fileID: 1719690824369894092, guid: aba6f1f8a67275c4b8e8f03efe5f3a5e, type: 3}

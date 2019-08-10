@@ -9,7 +9,8 @@ public class WaveManager : MonoBehaviour
     //array of all the spawners
     //ammount of waves
     //divide total enemies for each wave and each spawner
-    private int _totalEnemies, _totalWaves, _actualLevel, _activeSpawners;
+    private int _totalEnemies, _totalWaves, _actualLevel, _activeSpawners,_alreadyActivatedSpawners;
+    
     private SpawnerBehaviour[] _spawnerList;
     private GameManager _gm;
     void Start()
@@ -28,16 +29,32 @@ public class WaveManager : MonoBehaviour
         }
     }
     private void FindSpawners()
+    {
+        SpawnerBehaviour save1;
+        _spawnerList = FindObjectsOfType<SpawnerBehaviour>();
+        for (int i = 0; i < _activeSpawners; i++)
         {
-            _spawnerList = FindObjectsOfType<SpawnerBehaviour>();
-            
-            for (int i = 0;i <_activeSpawners; i++)
-            {
-               
-                _spawnerList[i].StartSpawner(_actualLevel,true,_totalEnemies/_activeSpawners,_totalWaves);
-
-            }
+            int change = Random.Range(i+1 , _spawnerList.Length);
+            save1 = _spawnerList[change];
+            _spawnerList[change] = _spawnerList[i];
+            _spawnerList[i] = save1;
         }
+
+        for (int i = 0;i < _spawnerList.Length; i++)
+        {
+            bool _hasTimer = false,_isActive = false;
+            
+            if (i < _activeSpawners)
+            {
+                _isActive = true;
+                if (i == 0)
+                {
+                    _hasTimer = true;
+                }
+            }
+            _spawnerList[i].StartSpawner(_actualLevel, _isActive, _totalEnemies / _activeSpawners, _totalWaves, _hasTimer);
+        }
+    }
     
 
 }

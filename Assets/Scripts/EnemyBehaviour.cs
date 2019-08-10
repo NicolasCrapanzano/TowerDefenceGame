@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class EnemyBehaviour : MonoBehaviour
 {
     private Transform _target;
@@ -10,11 +10,14 @@ public class EnemyBehaviour : MonoBehaviour
     private GameManager _gm;
     private Rigidbody2D _rb;
     private SpriteRenderer _sp;
-    
+    private Animator _anim;
+    [SerializeField] private Image _healthBar;
     [SerializeField] private float _speed, _atkDelay, _timer, _damagedColorTimer;
     [SerializeField] private int _health = 1, _damage = 1, _reward = 1;
     [SerializeField] private GameObject _deathParticle;
     private bool _move, _somethingReached, _damagedColor = false;
+    public bool _isAlive = true;
+    private int _maxHealth;
     void Start()
     {
 
@@ -23,9 +26,10 @@ public class EnemyBehaviour : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _gm = FindObjectOfType<GameManager>();
         _sp = GetComponentInChildren<SpriteRenderer>();
+        _anim = GetComponentInChildren<Animator>();
         _move = true;
         _somethingReached = false;
-        
+        _maxHealth = _health;
     }
 
 
@@ -101,11 +105,16 @@ public class EnemyBehaviour : MonoBehaviour
         }
         //Debug.Log(name + "recieved " + dmg + " damage");
         _health -= dmg;
+        _healthBar.fillAmount = (float)_health / _maxHealth;
         if (_health <= 0)
         {
+            _isAlive = false;
             _gm.SendMessage("CoinsCounter", _reward);//send coins to the gamemanager
-            //Instantiate(_deathParticle,transform.position,Quaternion.identity);
-            Destroy(this.gameObject);
+            Instantiate(_deathParticle,transform.position,Quaternion.identity);
+            _move = false;
+            _anim.Play("Enemy1Damaged");
+            
+            Destroy(this.gameObject,0.3f);
         }
     }
     private void StopAttack()

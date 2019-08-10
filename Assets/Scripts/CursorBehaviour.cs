@@ -7,13 +7,14 @@ public class CursorBehaviour : MonoBehaviour
     private Rigidbody2D _rb;
     private Vector2 _mousePos;
     private TowerShopManager _twrManager;
+    private GunControl _pGun;
     private bool _isTowerInHand = false,_inBuildZone=false;
     private GameObject _child;
     [SerializeField]
     private GameObject _torretest, _ancla;
     void Start()
     {
-
+        _pGun = FindObjectOfType<GunControl>();
         _rb = GetComponent<Rigidbody2D>();
         _twrManager = FindObjectOfType<TowerShopManager>();
     }
@@ -75,11 +76,20 @@ public class CursorBehaviour : MonoBehaviour
             _inBuildZone = true;
             Debug.Log("build : " + _inBuildZone);
         }
+        if(collision.gameObject.CompareTag("BuyTower"))
+        {
+            _pGun.SendMessage("OnShop", false);//tell the gun that the cursosr is in the shop so it doesnt shoot
+            Debug.Log(collision.name);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         _inBuildZone = false;
         Debug.Log("build : " + _inBuildZone);
+        if(collision.gameObject.CompareTag("BuyTower"))
+        {
+            _pGun.SendMessage("OnShop", true);//tell the gun that the cursor leaved the shop
+        }
     }
 }

@@ -9,6 +9,7 @@ public class BulletBehaviour : MonoBehaviour
     [SerializeField]
     private static int _damage = 1;
     private EnemyBehaviour _enemy;
+    private Rigidbody2D _enemyRb;
     void Start()
     {
         Destroy(this.gameObject,2);
@@ -28,8 +29,14 @@ public class BulletBehaviour : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Enemy"))
         {
+
             _enemy = collision.gameObject.GetComponent<EnemyBehaviour>();
+            _enemyRb = _enemy.GetComponent<Rigidbody2D>();
             _enemy.SendMessage("RecieveDamage", _damage);
+            if (_enemy._isAlive == false)
+            {
+                
+            }
             Destroy(this.gameObject);
         }
     }

@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     //Health
     [SerializeField]
-    private Text _healthTxt;
+    private Text _healthTxt,_waveDisplay;
     [SerializeField]
     private Image _healthBar;
     private int _maxHealth;
@@ -23,7 +23,8 @@ public class GameManager : MonoBehaviour
     {
         _coins = 0;
         
-        
+
+
     }
     private void Update()
     {
@@ -61,12 +62,14 @@ public class GameManager : MonoBehaviour
         _totalWaves = waves;
         _spawners = spawners;
         _actualWave = 1 * _spawners;
+        _waveDisplay.text = "Wave : " + _actualWave / _spawners + " / " + _totalWaves;
     }
     private void Progress(bool end=false)//recieve data from the spawner
     {
         if (_actualWave < _totalWaves * _spawners)
         {
             _actualWave++;
+            _waveDisplay.text = "Wave : " + _actualWave / _spawners + " / " + _totalWaves;
         }
         if(_actualWave >= _totalWaves *_spawners)
         {
