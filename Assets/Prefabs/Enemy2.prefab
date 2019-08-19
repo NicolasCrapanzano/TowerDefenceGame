@@ -158,6 +158,7 @@ MonoBehaviour:
     type: 3}
   _coinPopUp: {fileID: 5605309422439473595, guid: 08991c640ddfaa24d9cc74fb5936d4a8,
     type: 3}
+  _coinDisplayMove: {fileID: 0}
   _isAlive: 1
 --- !u!50 &1719690824369894199
 Rigidbody2D:

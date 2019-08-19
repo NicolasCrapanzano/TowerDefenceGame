@@ -7,8 +7,11 @@ public class TowerBehaviour : MonoBehaviour
     private int _health = 1; // health of the tower
     private EnemyBehaviour _enemyHittingThis;
     [SerializeField]private GameObject _children;
+    [SerializeField]private AudioClip _destoy;
     private SpriteRenderer _sr;
     private Color _nativeColor;
+    private AudioSource _audio;
+    
     void Start()
     {
         _sr = GetComponent<SpriteRenderer>();
@@ -19,10 +22,12 @@ public class TowerBehaviour : MonoBehaviour
 
     void Update()
     {
-        if(transform.parent == null)
+        if(transform.parent == null && gameObject.layer != 0)
         {
             gameObject.layer = 0;
             _children.layer = 0;
+            _audio = GetComponent<AudioSource>();
+            _audio.Play();
         }
     }
     private void DoDamage()
@@ -35,7 +40,8 @@ public class TowerBehaviour : MonoBehaviour
         _health -= dmg;
         if (_health <= 0)
         {
-            if(_enemyHittingThis != null)
+            AudioSource.PlayClipAtPoint(_destoy, transform.position);
+            if (_enemyHittingThis != null)
             {
                 _enemyHittingThis.SendMessage("StopAttack");
             }

@@ -16,6 +16,7 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] private int _health = 1, _damage = 1, _reward = 1;
     [SerializeField] private GameObject _deathParticle,_coinPopUp;
     [SerializeField] private Animator _coinDisplayMove;
+    [SerializeField] private AudioClip _death,_damagedSound;
     private GameObject _pop;
     private bool _move, _somethingReached, _damagedColor = false;
     public bool _isAlive = true;
@@ -33,6 +34,7 @@ public class EnemyBehaviour : MonoBehaviour
         _move = true;
         _somethingReached = false;
         _maxHealth = _health;
+
     }
 
 
@@ -100,6 +102,10 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void RecieveDamage(int dmg)
     {
+        if (_health > 1)
+        {
+            AudioSource.PlayClipAtPoint(_damagedSound, transform.position); //play damage sound
+        }
         _sp.color = new Color(255, 0, 0);
         if (_damagedColor == false)
         {
@@ -111,7 +117,8 @@ public class EnemyBehaviour : MonoBehaviour
         _healthBar.fillAmount = (float)_health / _maxHealth;
         if (_health <= 0)
         {
-
+            //play death sound
+            AudioSource.PlayClipAtPoint(_death, transform.position);
             _isAlive = false;
             _pop = Instantiate(_coinPopUp,transform.position,Quaternion.identity);
             _pop.SendMessage("CreateObject", _reward);
