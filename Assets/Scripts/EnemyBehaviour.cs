@@ -120,8 +120,8 @@ public class EnemyBehaviour : MonoBehaviour
             //play death sound
             AudioSource.PlayClipAtPoint(_death, transform.position);
             _isAlive = false;
-            _pop = Instantiate(_coinPopUp,transform.position,Quaternion.identity);
-            _pop.SendMessage("CreateObject", _reward);
+            _pop = Instantiate(_coinPopUp,transform.position,Quaternion.identity);//instantiate a gameobject to show coin popup
+            _pop.SendMessage("CreateObject", _reward);//sends a message to that gameobject
 
             _gm.SendMessage("CoinsCounter", _reward);//send coins to the gamemanager
             Instantiate(_deathParticle,transform.position,Quaternion.identity);

@@ -14,6 +14,14 @@ public class CoinPopUp : MonoBehaviour
         _coinText.text = "+ " + reward;
         _coinText.color = new Color(1,1,0,1);
         _transform = GetComponent<Transform>();
+
+    }
+    private void SetText(string txt)
+    {
+        _coinText = GetComponentInChildren<Text>();
+        _coinText.text = txt;
+        _coinText.color = new Color(1, 1, 0, 1);
+        _transform = GetComponent<Transform>();
     }
     void Update()
     {

@@ -86,6 +86,7 @@ public class ShopManager : MonoBehaviour
                 else if (_statsLevel[id] >= (_buyAtkSpd.Length - 1))
                 {
                     Debug.Log("You already are in the max level");
+
                 }
                 else
                 {
@@ -127,15 +128,33 @@ public class ShopManager : MonoBehaviour
             if(i == 0)
             {
                 tempButton.text ="Health : "+ (1+_buyHealth[_statsLevel[i]])  + "\r\n" + "Cost : " + _healthCost[_statsLevel[i]];
+                if(_statsLevel[i] >= 2)
+                {
+                    tempButton.text = "Sold Out";
+                }
             }else if(i == 1)
             {
                 tempButton.text = "Damage : " + (1 + _buyDamage[_statsLevel[i]]) + "\r\n" + "Cost : " + _damageCost[_statsLevel[i]];
-            }else if(i == 2)
+                if (_statsLevel[i] >= 2)
+                {
+                    tempButton.text = "Sold Out";
+                }
+            }
+            else if(i == 2)
             {
                 tempButton.text = "Atk Spd : " +_buyAtkSpd[_statsLevel[i]] + "\r\n" + "Cost : " + _atkSpdCost[_statsLevel[i]];
-            }else if(i == 3)
+                if (_statsLevel[i] >= 3)
+                {
+                    tempButton.text = "Sold Out";
+                }
+            }
+            else if(i == 3)
             {
                 tempButton.text = "Shot scatter : " + _buyScatter[_statsLevel[i]] + "\r\n" + "Cost : " + _scatterCost[_statsLevel[i]];
+                if (_statsLevel[i] >= 3)
+                {
+                    tempButton.text = "Sold Out";
+                }
             }
         }
         //do a for to go through the array

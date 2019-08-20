@@ -14,9 +14,11 @@ public class CursorBehaviour : MonoBehaviour
     private GameObject _torretest, _ancla;
     void Start()
     {
+
         _pGun = FindObjectOfType<GunControl>();
         _rb = GetComponent<Rigidbody2D>();
         _twrManager = FindObjectOfType<TowerShopManager>();
+
     }
 
     void Update()
@@ -53,7 +55,7 @@ public class CursorBehaviour : MonoBehaviour
 
     }
 
-    private void NewTower(int id = 0)
+    private void NewTower(int id = 0) //when called it instantiate a new tower and makes it a child of the cursor
     {
 
         Debug.Log("entered");

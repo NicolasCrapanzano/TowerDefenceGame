@@ -5,8 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-    public void LoadLevel ()
+    public void LoadLevel (int lvl)//send level as a parameter
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(lvl);
+        WaveManager._actualLevel = lvl;
     }
 }

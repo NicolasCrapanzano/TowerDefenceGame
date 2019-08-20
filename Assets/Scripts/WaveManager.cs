@@ -9,14 +9,14 @@ public class WaveManager : MonoBehaviour
     //array of all the spawners
     //ammount of waves
     //divide total enemies for each wave and each spawner
-    private int _totalEnemies, _totalWaves, _actualLevel, _activeSpawners,_alreadyActivatedSpawners;
-    
+    private int _totalEnemies, _totalWaves, _activeSpawners,_alreadyActivatedSpawners;
+    public static int _actualLevel;
     private SpawnerBehaviour[] _spawnerList;
     private GameManager _gm;
     void Start()
     {
         _gm = FindObjectOfType<GameManager>();
-        _actualLevel = 1;
+
         switch (_actualLevel)
         {
             case 1:
@@ -25,6 +25,13 @@ public class WaveManager : MonoBehaviour
                 _activeSpawners = 2;
                 FindSpawners();
                 _gm.LevelObjective(_totalWaves,_activeSpawners);
+                break;
+            case 2:
+                _totalEnemies = 60;
+                _totalWaves = 5;
+                _activeSpawners = 3;
+                FindSpawners();
+                _gm.LevelObjective(_totalWaves, _activeSpawners);
                 break;
         }
     }

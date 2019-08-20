@@ -43,7 +43,7 @@ public class SpawnerBehaviour : MonoBehaviour
 
     void Update()
     {
-        if(_timer > 0)
+        if(_timer > 0) //move the timer to a separate script!!!
         {
             _timer -= Time.deltaTime;
 

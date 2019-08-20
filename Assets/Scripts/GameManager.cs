@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3);
         SaveLoadSystem.SaveGold(_realCoins, 1);
         Cursor.visible = true;
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(0);
         _realCoins = 0;
     }
     private void HealthDisplay(int h) // show health in the UI
