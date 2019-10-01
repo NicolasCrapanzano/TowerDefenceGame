@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     private int _maxHealth;
     //
     [SerializeField]
-    private int _actualCoins,_realCoins,_totalWaves,_spawners,_actualWave;
+    private int _actualCoins,_realCoins,_totalWaves,_actualWave;
     [SerializeField]
     private Text _coinDisplay,_youwin;
     [SerializeField] private Animator _coinDisplayMove;
@@ -35,10 +35,14 @@ public class GameManager : MonoBehaviour
         {
             Progress();
         }
-        if(Input.GetKey(KeyCode.R)) //desaparecer vida enemigos?
+
+        if(Input.GetKey(KeyCode.Escape)) //pause menu
         {
-            
+            //go to main menu
+            Cursor.visible = true;
+            SceneManager.LoadScene(0);
         }
+
         if (_actualCoins != _realCoins && _coinTimer <= Time.time)
         {
             UpdateCoins();
@@ -80,21 +84,21 @@ public class GameManager : MonoBehaviour
         return _realCoins;
     }
 
-    public void LevelObjective(int waves,int spawners)//recieve data from the wave manager
+    public void LevelObjective(int waves)//recieve data from the wave manager
     {
         _totalWaves = waves;
-        _spawners = spawners;
-        _actualWave = 1 * _spawners;
-        _waveDisplay.text = "Wave : " + _actualWave / _spawners + " / " + _totalWaves;
+        
+        _actualWave = 1 ;
+        _waveDisplay.text = "Wave : " + _actualWave + " / " + _totalWaves;
     }
     private void Progress(bool end=false)//recieve data from the spawner
     {
-        if (_actualWave < _totalWaves * _spawners)
+        if (_actualWave < _totalWaves )
         {
             _actualWave++;
-            _waveDisplay.text = "Wave : " + _actualWave / _spawners + " / " + _totalWaves;
+            _waveDisplay.text = "Wave : " + _actualWave  + " / " + _totalWaves;
         }
-        if(_actualWave >= _totalWaves *_spawners)
+        if(_actualWave >= _totalWaves )
         {
             //you win m8
             _enemiesLeft = FindObjectsOfType<EnemyBehaviour>();
