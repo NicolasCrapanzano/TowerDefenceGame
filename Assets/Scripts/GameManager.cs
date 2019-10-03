@@ -84,39 +84,32 @@ public class GameManager : MonoBehaviour
         return _realCoins;
     }
 
-    public void LevelObjective(int waves)//recieve data from the wave manager
+    public void LevelObjective(int waves)//recieve the total ammount of waves for that level  || what to do when infinite ?
     {
         _totalWaves = waves;
-        
         _actualWave = 1 ;
         _waveDisplay.text = "Wave : " + _actualWave + " / " + _totalWaves;
     }
-    private void Progress(bool end=false)//recieve data from the spawner
+
+    public void UpdateWaveDisplay()//update the display of the actual and the total waves
     {
-        if (_actualWave < _totalWaves )
+        if (_actualWave < _totalWaves)
         {
             _actualWave++;
-            _waveDisplay.text = "Wave : " + _actualWave  + " / " + _totalWaves;
+            _waveDisplay.text = "Wave : " + _actualWave + " / " + _totalWaves;
         }
-        if(_actualWave >= _totalWaves )
+    }
+    private void Progress(bool end=false)//recieve data from the spawner
+    {
+        if(end == true)
         {
-            //you win m8
-            _enemiesLeft = FindObjectsOfType<EnemyBehaviour>();
-
-            if (_enemiesLeft.Length <= 0 && end == true)
+            //send the ammount of money you won and save it  
+            _youwin.gameObject.SetActive(true);
+            if (_dontEnterAgain == false)
             {
-                //send the ammount of money you won and save it
-                
-                _youwin.gameObject.SetActive(true);
-                if (_dontEnterAgain == false)
-                {
-                    StartCoroutine(Wait());
-                }
-            }else
-            {
-                _almostEnd = true;
-                _endTimer = Time.time + 2;
+                StartCoroutine(Wait());
             }
+
         }
     }
     private IEnumerator Wait()

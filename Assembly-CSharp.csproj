@@ -62,8 +62,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\CoinPopUp.cs" />
     <Compile Include="Assets\Scripts\BulletBehaviour.cs" />
+    <Compile Include="Assets\Scripts\CoinPopUp.cs" />
     <Compile Include="Assets\Scripts\CursorBehaviour.cs" />
     <Compile Include="Assets\Scripts\Data.cs" />
     <Compile Include="Assets\Scripts\DestroySelf.cs" />
@@ -79,6 +79,7 @@
     <Compile Include="Assets\Scripts\SpawnerBehaviour.cs" />
     <Compile Include="Assets\Scripts\TowerBehaviour.cs" />
     <Compile Include="Assets\Scripts\TowerShopManager.cs" />
+    <Compile Include="Assets\Scripts\Wave.cs" />
     <Compile Include="Assets\Scripts\WaveManager.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/Nico/Documents/GitHub/TowerDefenceGame/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>

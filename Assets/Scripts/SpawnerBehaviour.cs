@@ -5,159 +5,150 @@ using UnityEngine.UI;
 
 public class SpawnerBehaviour : MonoBehaviour
 {
-    [SerializeField] Text _timeLeftDisplay;
-    [SerializeField]
-    private float _timer, _endTimer, _maxTime;
-    [SerializeField]
-    private GameObject[] _enemies;
 
-    private int _counter=0;
-    private string[] _enemiesList;
-    private int[] _spawnPoint1, _spawnPoint2, _spawnPoint3, _spawnPoint4, _spawnPoint5;
-    private int[] _wichPoint;
-
-    [SerializeField]
-    private GameObject[] _spawnPoints;
-    private GameManager _gm;
-    private bool _betweenWaves=false;
-    private int _enemiesTotal, _enemiesLeft,_actualWave,_totalWaves,_difficulty,_actualEnemySpawnAmmount;
-    //set an ammount of waves and an ammount of enemies on each wave, when a wave ends there is a delay until the next starts
+    private enum SpawnState { SPAWNING, WAITING, COUNTING };
 
 
-    public void StartSpawner(int dif, int enemiesAmmount,int waves, float spRate = 5)
+    private int _nextWave = 0;
+    private bool _isInfinite = false; //set true if you want the level to loop
+
+    [SerializeField] private Wave[] _waves; //normal wave list
+    [SerializeField] private Wave[] _extraWaves; //if you want other type of enemy in the same wave set them here
+    [SerializeField] private GameManager _gm;
+    [SerializeField] private Transform[] _spawnPoints;
+    [SerializeField] private float _timeBtwWaves = 5f, _waveCountdown, _searchCountdown=1f;
+
+    private SpawnState state = SpawnState.COUNTING;
+    
+    public void SetWaves(Wave[] _normalwaves, Wave[] _extrawaves)
     {
-        
-        
-            _gm = FindObjectOfType<GameManager>();
-            _difficulty = dif;
-            _actualWave = 1;
-            _enemiesTotal = enemiesAmmount;
-            
-            _enemiesLeft = _enemiesTotal / waves;
-             Debug.Log(_enemiesLeft);
-            _totalWaves = waves;
-            _maxTime = spRate;
-            _timer = _maxTime;
+        _waves[0] = _normalwaves[0];
+        _waves[1] = _normalwaves[1];
+        _waves[2] = _normalwaves[2];
 
-            DistributeEnemies();
-        //_enemiesList = EnemiesWavesList.Instance.ThisWaveEnemies(dif);
+        _extraWaves[0] = _extrawaves[0];
+        _extraWaves[1] = _extrawaves[1];
+        _extraWaves[2] = _extrawaves[2];
+
+    }
+    private void Start()
+    {
+        _gm = FindObjectOfType<GameManager>();
+        _gm.LevelObjective(_waves.Length);
+
+        if(_spawnPoints.Length == 0)
+        {
+            Debug.LogError("No spawners detected");
+        }
+        _waveCountdown = _timeBtwWaves;
     }
 
-    void Update()
+    private void Update()
     {
-        if(_timer > 0) //move the timer to a separate script!!!
-        {
-            _timer -= Time.deltaTime;
 
-            if (_betweenWaves == true)
+        if(state == SpawnState.WAITING)//check if there is any enemy left
+        {
+            if(!EnemyIsAlive())
             {
-                _timeLeftDisplay.text = "Next Wave In : " + (int)_timer;
-                //show timer text
-            }
-        }
-        if ( _timer <= 0 && _enemiesLeft > 0) // && _actualEnemySpawnAmmount * _spawnPoints.Length < _enemiesTotal
-        {
-            //instatiate an enemy
-            _betweenWaves = false;
-            _timeLeftDisplay.text = " ";
-            _timer = _maxTime;
-            for (int i = 0; i <_spawnPoints.Length ; i++) //this spawns  1 enemy per cycle
-            {
-                if (i == 0 ) // spawn point 1
-                {
-                    Instantiate(_enemies[_spawnPoint1[_wichPoint[i]]], _spawnPoints[i].transform.position, Quaternion.identity);
-                    _wichPoint[i]++;
-                    _enemiesLeft--;
-                }
-                else if(i == 1) //spawn point 2
-                {
-                    Debug.Log(_wichPoint[i] + _actualEnemySpawnAmmount);
-                    Instantiate(_enemies[_spawnPoint2[_wichPoint[i]]], _spawnPoints[i].transform.position, Quaternion.identity);
-                    _wichPoint[i]++;
-                    _enemiesLeft--;
-                    
-                }else if(i == 2)
-                {
-                    Instantiate(_enemies[_spawnPoint3[_wichPoint[i]]], _spawnPoints[i].transform.position, Quaternion.identity);
-                    _enemiesLeft--;
-                    _wichPoint[i]++;
-                }
-                else if (i == 3)
-                {
-                    Instantiate(_enemies[_spawnPoint4[_wichPoint[i]]], _spawnPoints[i].transform.position, Quaternion.identity);
-                    _enemiesLeft--;
-                    _wichPoint[i]++;
-                }
-
-                Debug.Log(_enemiesLeft);
-                _actualEnemySpawnAmmount++;
-            }
-
-        }
-        else if (_enemiesLeft <= 0 && _actualWave < _totalWaves)
-        {
-
-            _betweenWaves = true;
-            _enemiesLeft = _enemiesTotal / _totalWaves;
-            _actualWave++;
-            if(_difficulty > 0)
-            {
-                _gm.SendMessage("Progress", false);
-            }
-            
-            //display time until next wave
-            _timer = 10;
-
-        } else if (_difficulty != 0 && _endTimer <= Time.time&& _actualWave >= _totalWaves && _enemiesLeft <= 0) //you won
-        {
-
-            _endTimer = Time.time + 5;
-            _gm.SendMessage("Progress",true);
-
-        }
-        
-    }
-
-    private void DistributeEnemies() //recieve a char array and divides its contents on the ammount of spawn points for the level, fill and an array with values until reaching '/' symbol, then change to another array
-    {
-        _enemiesList = EnemiesWavesList.Instance.ThisWaveEnemies(_difficulty);
-        _wichPoint = new int[_spawnPoints.Length];
-        for (int i = 0; i < _enemiesList.Length; i++)
-        {
-            string stringTemporal = _enemiesList[i];
-            for (int a = 0; a < stringTemporal.Length ; a++)
-            {
-                if(_spawnPoint1 == null) // START checking if the list its empty, if it is create a new one
-                {
-                    _spawnPoint1 = new int[stringTemporal.Length];
-                }else if(_spawnPoint2 == null)
-                {
-                    _spawnPoint2 = new int[stringTemporal.Length];
-                }
-                else if (_spawnPoint3 == null)
-                {
-                    _spawnPoint3 = new int[stringTemporal.Length];
-                }
-                else if (_spawnPoint4 == null)
-                {
-                    _spawnPoint4 = new int[stringTemporal.Length];
-                }
-                else if (_spawnPoint5 == null)
-                {
-                    _spawnPoint5 = new int[stringTemporal.Length];
-                }
-
-                if(stringTemporal[a] == 'e')
-                {
-                    _spawnPoint1[a] = -1; //this means that in that wave the spawner does nothing
-                }
-                else
-                {
-                    _spawnPoint1[a] = (int)stringTemporal[a] - 48;
-                }
+                //start new round
                 
+                WaveCompleted();
+                return;
+            }else
+            {
+                return;
             }
-            
         }
+
+        if(_waveCountdown <= 0)
+        {
+            if(state != SpawnState.SPAWNING)
+            {
+                StartCoroutine(SpawnWave(_waves[_nextWave]));
+                if(_extraWaves.Length > 0 && _nextWave < _extraWaves.Length )
+                {
+                    if (_extraWaves[_nextWave] != null)
+                    {
+                        StartCoroutine(SpawnWave(_extraWaves[_nextWave]));
+                    }
+                }
+            }
+        }else
+        {
+            _waveCountdown -= Time.deltaTime;
+        }
+    }
+
+    void WaveCompleted()
+    {
+        Debug.Log("Wave Completed");
+
+        state = SpawnState.COUNTING;
+        _waveCountdown = _timeBtwWaves;
+        _gm.UpdateWaveDisplay();
+
+        if (_nextWave + 1 > _waves.Length - 1)
+        {
+            Debug.Log("All waves completed ! !" + "wave: " + (_nextWave + 1) + " / " + _waves.Length + "Ending level . . .");
+            
+            if (_isInfinite == true) //if the level is infinite this is going to start all over
+            {
+                _nextWave = 0;
+            }else //else is going to end and send to the main menu
+            {
+                _gm.SendMessage("Progress", true);
+            }
+        }
+        else
+        {
+            
+            _nextWave++;
+            Debug.Log("wave: " + (_nextWave + 1) + " / " + _waves.Length);
+        }
+        
+    }
+
+    private bool EnemyIsAlive()
+    {
+        _searchCountdown -= Time.deltaTime;
+
+        if(_searchCountdown <= 0f)
+        {
+            _searchCountdown = 1f;
+            if (GameObject.FindGameObjectWithTag("Enemy") == null)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    IEnumerator SpawnWave(Wave _wave,Wave _extraWave = null)
+    {
+        Debug.Log("Spawning Wave: " + _wave.GetName());
+        state = SpawnState.SPAWNING;
+
+        for (int i = 0; i < _wave.GetAmmount(); i++)
+        {
+            SpawnEnemy(_wave.GetType());
+            if(_extraWave != null)
+            {
+                SpawnEnemy(_extraWave.GetType());
+            }
+            yield return new WaitForSeconds(1f/_wave.GetRate());
+        }
+
+        state = SpawnState.WAITING;
+
+        yield break;
+    }
+
+    void SpawnEnemy (Transform _enemy)
+    {
+        Debug.Log("Spawning enemy: " + _enemy.name);
+
+        Transform _sp = _spawnPoints[Random.Range(0, _spawnPoints.Length)];
+        Instantiate(_enemy, _sp.transform.position, Quaternion.identity);
+
     }
 }
